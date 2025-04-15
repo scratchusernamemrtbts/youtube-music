@@ -14,16 +14,15 @@ export const menu = async (
 
   return [
     {
-      label: 'Lyrics offset',
-      toolTip:
-        'Set the offset for the lyrics (useful when using bluetooth speakers)',
+      label: t('plugins.synced-lyrics.menu.offset.label'),
+      toolTip: t('plugins.synced-lyrics.menu.offset.tooltip'),
       type: 'normal',
       async click() {
         const config = await ctx.getConfig();
         const newOffset = await prompt(
           {
-            title: 'Lyrics offset',
-            label: 'Set the lyrics offset in ms',
+            title: t('plugins.synced-lyrics.menu.offset.prompt.title'),
+            label: t('plugins.synced-lyrics.menu.offset.prompt.label'),
             value: config.lyricsOffset || 0,
             type: 'counter',
             counterOptions: { multiFire: true },
