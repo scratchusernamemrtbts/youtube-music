@@ -1,4 +1,7 @@
+import prompt from 'custom-electron-prompt';
+
 import { t } from '@/i18n';
+import promptOptions from '@/providers/prompt-options';
 
 import type { MenuItemConstructorOptions } from 'electron';
 import type { MenuContext } from '@/types/contexts';
@@ -10,6 +13,31 @@ export const menu = async (
   const config = await ctx.getConfig();
 
   return [
+    {
+      label: 'Lyrics offset',
+      toolTip:
+        'Set the offset for the lyrics (useful when using bluetooth speakers)',
+      type: 'normal',
+      async click() {
+        const config = await ctx.getConfig();
+        const newOffset = await prompt(
+          {
+            title: 'Lyrics offset',
+            label: 'Set the lyrics offset in ms',
+            value: config.lyricsOffset || 0,
+            type: 'counter',
+            counterOptions: { multiFire: true },
+            width: 380,
+            ...promptOptions(),
+          },
+          ctx.window,
+        );
+
+        ctx.setConfig({
+          lyricsOffset: newOffset ?? config.lyricsOffset,
+        });
+      },
+    },
     {
       label: t('plugins.synced-lyrics.menu.precise-timing.label'),
       toolTip: t('plugins.synced-lyrics.menu.precise-timing.tooltip'),
