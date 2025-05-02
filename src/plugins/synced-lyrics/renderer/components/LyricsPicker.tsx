@@ -22,7 +22,7 @@ import {
 
 import { _ytAPI } from '../index';
 
-import type { YtIcons } from '@/types/icons';
+import type { Icons, YtIcons } from '@/types/icons';
 
 export const providerIdx = createMemo(() =>
   providerNames.indexOf(lyricsStore.provider),
@@ -52,6 +52,8 @@ const pickBestProvider = () => {
 
   return providers[0];
 };
+
+export const [pickerAdvancedOpen, setPickerAdvancedOpen] = createSignal(false);
 
 const [hasManuallySwitchedProvider, setHasManuallySwitchedProvider] =
   createSignal(false);
@@ -105,6 +107,7 @@ export const LyricsPicker = (props: { setStickRef: Setter<HTMLElement | null> })
   const successIcon: YtIcons = 'yt-icons:check-circle';
   const errorIcon: YtIcons = 'yt-icons:error';
   const notFoundIcon: YtIcons = 'yt-icons:warning';
+  const toggleAdvancedIcon: Icons = 'icons:more-vert';
 
   return (
     <div class="lyrics-picker" ref={props.setStickRef}>
@@ -172,6 +175,10 @@ export const LyricsPicker = (props: { setStickRef: Setter<HTMLElement | null> })
                 <yt-formatted-string
                   class="description ytmusic-description-shelf-renderer"
                   text={{ runs: [{ text: provider() }] }}
+                />
+                <tp-yt-paper-icon-button
+                  icon={toggleAdvancedIcon}
+                  onClick={() => setPickerAdvancedOpen(prev => !prev)}
                 />
               </div>
             )}
